@@ -1,0 +1,70 @@
+import { test, expect } from '@playwright/test';
+import path from 'path';
+
+test.use({ storageState: 'auth.json' });
+
+test('Send document for signature', async ({ page }) => {
+  // 1. Navigate to the upload page
+  await page.goto('http://sign.test-zentixs.com/upload');
+
+  // 2. Upload PDF
+  const pdfFilePath = path.resolve('./Dummy File.pdf');
+  const fileInput = page.locator('input[type="file"]');
+  await fileInput.setInputFiles(pdfFilePath);
+
+  // 3. Enter document name
+  await page.fill('#txtDocumentName', 'Dummy File');
+
+  // 4. Add recipient
+  await page.fill('#txtEmail1', 'adrta.admin1233@yopmail.com');
+  await page.fill('#txtName1', 'Adrta admin');
+
+  // 5. Set days to complete
+  await page.fill('#txtExpiresIn', '5');
+
+  // 6. Add note (optional)
+  await page.fill('#txtNote', 'Please sign this document.');
+
+  // 7. Click Continue
+  await page.click('#btnContinue');
+
+  // 8. Wait for Multiple Sign page
+  await page.waitForSelector('app-multiplesignforflow');
+
+  // 9. Drag & drop signature fields
+  const signField = page.locator('#signField');
+  const pdfCanvas = page.locator('.pdf-canvas.lower-canvas').first();
+
+  // Drag signature to center of PDF
+  const box = await pdfCanvas.boundingBox();
+  if (box) {
+    await signField.hover();
+    await page.mouse.down();
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+    await page.mouse.up();
+  }
+
+  // 10. Click Send
+  await page.click('button:has-text("Send")');
+
+  // 11. Wait for confirmation modal
+  await page.waitForSelector('.modal-content');
+
+  // 12. (Optional) Log recipient info
+  const rows = page.locator('.modal-content tbody tr');
+  const rowCount = await rows.count();
+  for (let i = 0; i < rowCount; i++) {
+    const recipient = await rows.nth(i).locator('td').nth(0).textContent();
+    const fields = await rows.nth(i).locator('td').nth(1).textContent();
+    const sign = await rows.nth(i).locator('td').nth(2).textContent();
+    console.log(`Recipient: ${recipient}, Fields: ${fields}, Signatures: ${sign}`);
+  }
+
+  // 13. Click Save & sign
+  await page.locator('.modal-content button:has-text("Save & sign")').click();
+
+  // 14. Verify landing page
+  await expect(page).toHaveURL('http://sign.test-zentixs.com/sign');
+
+  console.log('Document sent and signed successfully!');
+});

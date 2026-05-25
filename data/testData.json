@@ -1,0 +1,10 @@
+{
+  "users": [
+    {"email": "user1@test.com", "password": "Password123"},
+    {"email": "user2@test.com", "password": "Password123"}
+  ],
+  "documents": [
+    {"file": "contract1.pdf", "signers": ["signer1@test.com", "signer2@test.com"]},
+    {"file": "contract2.pdf", "signers": ["signer3@test.com"]}
+  ]
+}
