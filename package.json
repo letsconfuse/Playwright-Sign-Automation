@@ -7,7 +7,14 @@
     "test": "npx playwright test",
     "test:ui": "npx playwright test --ui",
     "test:debug": "npx playwright test --debug",
-    "report": "npx playwright show-report"
+    "test:smoke": "npx playwright test --grep @smoke",
+    "test:regression": "npx playwright test --grep @regression",
+    "test:api": "npx playwright test --project=api",
+    "test:e2e": "npx playwright test --project=e2e-chromium",
+    "report": "npx playwright show-report",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write ."
   },
   "keywords": [],
   "author": "",
@@ -16,7 +23,10 @@
   "devDependencies": {
     "@playwright/test": "^1.58.2",
     "dotenv": "^17.4.2",
-    "playwright": "^1.58.2"
+    "eslint": "^8.57.0",
+    "eslint-plugin-playwright": "^1.6.0",
+    "playwright": "^1.58.2",
+    "prettier": "^3.2.5"
   },
   "directories": {
     "test": "tests"

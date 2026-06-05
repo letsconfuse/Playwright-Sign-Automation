@@ -9,7 +9,11 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
-  reporter: [['html'], ['list']],
+  reporter: [
+    ['html'],
+    ['list'],
+    ['junit', { outputFile: 'results/results.xml' }]
+  ],
   use: {
     baseURL: process.env.BASE_URL,
     trace: 'on-first-retry',
@@ -19,15 +23,23 @@ export default defineConfig({
   projects: [
     {
       name: 'setup',
-      testMatch: /auth\.setup\.js/,
+      testMatch: /setup\/auth\.setup\.js/,
     },
     {
-      name: 'chromium',
+      name: 'e2e-chromium',
+      testMatch: /e2e\/.*\.spec\.js/,
       use: { 
         ...devices['Desktop Chrome'],
         storageState: 'auth.json',
       },
       dependencies: ['setup'],
+    },
+    {
+      name: 'api',
+      testMatch: /api\/.*\.spec\.js/,
+      use: {
+        // API tests do not require browser configurations
+      },
     },
   ],
 });
