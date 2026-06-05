@@ -6,7 +6,7 @@ This suite is structured according to modern software development standards to s
 
 ---
 
-## 🛠️ Architecture and Technical Standards
+## Architecture and Technical Standards
 
 The framework implements advanced architecture patterns to ensure reliability, security, and velocity:
 
@@ -20,7 +20,7 @@ The framework implements advanced architecture patterns to ensure reliability, s
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```text
 Playwright-Sign-Automation/
@@ -56,7 +56,7 @@ Playwright-Sign-Automation/
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### 1. Prerequisites
 *   **Node.js** (v18 or higher)
@@ -87,7 +87,7 @@ USER_PASSWORD=your_password_here
 
 ---
 
-## 💻 Test Execution
+## Test Execution
 
 This project defines specific NPM scripts to run tests by project, tag, or debug mode:
 
@@ -116,7 +116,7 @@ This project defines specific NPM scripts to run tests by project, tag, or debug
 
 ---
 
-## 🔄 CI/CD Pipeline (GitHub Actions)
+## CI/CD Pipeline (GitHub Actions)
 
 A CI/CD pipeline is configured in `.github/workflows/playwright.yml` that triggers on **every Push and Pull Request** targeting `main` or `master`.
 
